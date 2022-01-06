@@ -10,29 +10,47 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoggingAndSecurityAspect {
 
-    @Pointcut("execution(* com.example.spring_aop.aop.UniLibrary.get*())")
-    private void allGetMethodsFromUniLibrary() {
-    }
-    @Pointcut("execution(* com.example.spring_aop.aop.UniLibrary.return*())")
-    private void allReturnMethodsFromUniLibrary() {
-    }
-    @Pointcut("allGetMethodsFromUniLibrary() || allReturnMethodsFromUniLibrary()")
-    private void allGetAndReturnMethodsFromUniLibrary(){
+    @Pointcut("execution(* com.example.spring_aop.aop.UniLibrary.*(..))")
+    private void allMethodsFromUniLibrary() {
+
     }
 
+    @Pointcut("execution(public void com.example.spring_aop.aop.UniLibrary.returnMagazine())")
+    private void returnMagazineFromUniLibrary() {
+    }
 
-    @Before("allGetMethodsFromUniLibrary()")
-    public void beforeGetLoggingAdvice() {
-        System.out.println("beforeGetLoggingAdvice: writing Log #1");
+    @Pointcut("allMethodsFromUniLibrary() && !returnMagazineFromUniLibrary()")
+    private void allMethodsExceptReturnMagazineFromUniLibrary(){
     }
-    @Before("allReturnMethodsFromUniLibrary()")
-    public void beforeReturnLoggingAdvice() {
-        System.out.println("beforeReturnLoggingAdvice: writing Log #2");
+
+    @Before("allMethodsExceptReturnMagazineFromUniLibrary()")
+    public void beforeAllMethodExceptReturnMagazineAdvice() {
+        System.out.println("beforeAllMethodExceptReturnMagazineAdvice: Log #10" );
     }
-    @Before("allGetAndReturnMethodsFromUniLibrary()")
-    public void beforeGetAndReturnLoggingAdvice() {
-        System.out.println("beforeGetAndReturnLoggingAdvice: writing Log #3");
-    }
+
+//    @Pointcut("execution(* com.example.spring_aop.aop.UniLibrary.get*())")
+//    private void allGetMethodsFromUniLibrary() {
+//    }
+//    @Pointcut("execution(* com.example.spring_aop.aop.UniLibrary.return*())")
+//    private void allReturnMethodsFromUniLibrary() {
+//    }
+//    @Pointcut("allGetMethodsFromUniLibrary() || allReturnMethodsFromUniLibrary()")
+//    private void allGetAndReturnMethodsFromUniLibrary(){
+//    }
+//
+//
+//    @Before("allGetMethodsFromUniLibrary()")
+//    public void beforeGetLoggingAdvice() {
+//        System.out.println("beforeGetLoggingAdvice: writing Log #1");
+//    }
+//    @Before("allReturnMethodsFromUniLibrary()")
+//    public void beforeReturnLoggingAdvice() {
+//        System.out.println("beforeReturnLoggingAdvice: writing Log #2");
+//    }
+//    @Before("allGetAndReturnMethodsFromUniLibrary()")
+//    public void beforeGetAndReturnLoggingAdvice() {
+//        System.out.println("beforeGetAndReturnLoggingAdvice: writing Log #3");
+//    }
 
 
 //    @Pointcut("execution(* get*())")
